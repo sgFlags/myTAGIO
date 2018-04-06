@@ -559,6 +559,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 	} else
 #endif
 	{
+        printk("sc->cmd_len is %d\n", sc->cmd_len);
 		virtio_scsi_init_hdr(vscsi->vdev, &cmd->req.cmd, sc);
 		memcpy(cmd->req.cmd.cdb, sc->cmnd, sc->cmd_len);
 		req_size = sizeof(cmd->req.cmd);
