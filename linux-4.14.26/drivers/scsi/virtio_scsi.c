@@ -538,6 +538,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 	unsigned long flags;
 	int req_size;
 	int ret;
+    int i;
 
 	BUG_ON(scsi_sg_count(sc) > shost->sg_tablesize);
 
@@ -562,14 +563,17 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
         /* e6998 */
         sc->cmnd[sc->cmd_len] = 233;
         sc->cmd_len += 1;
-        printk("sc->cmd_len is %d\n", sc->cmd_len);
+        //printk("sc->cmd_len is %d\n", sc->cmd_len);
 
 		virtio_scsi_init_hdr(vscsi->vdev, &cmd->req.cmd, sc);
 		memcpy(cmd->req.cmd.cdb, sc->cmnd, sc->cmd_len);
 		req_size = sizeof(cmd->req.cmd);
+
+        for (i = 0; i < sc->cmd_len; i++)
+            printk("cmnd[%d] is %d\n", i, sc->cmnd[i]);
 	}
 
-    printk("prio is %d\n", sc->tag_prio);
+    //printk("prio is %d\n", sc->tag_prio);
 	ret = virtscsi_kick_cmd(req_vq, cmd, req_size, sizeof(cmd->resp.cmd));
 	if (ret == -EIO) {
 		cmd->resp.cmd.response = VIRTIO_SCSI_S_BAD_TARGET;
