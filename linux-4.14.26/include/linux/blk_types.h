@@ -96,7 +96,10 @@ struct bio {
 #endif
 	};
 
-	unsigned short		bi_vcnt;	/* how many bio_vec's */
+    /* e6998 */
+    uint8_t tag_prio;
+	
+    unsigned short		bi_vcnt;	/* how many bio_vec's */
 
 	/*
 	 * Everything starting with bi_max_vecs will be preserved by bio_reset()
@@ -117,8 +120,6 @@ struct bio {
 	 */
 	struct bio_vec		bi_inline_vecs[0];
 
-    /* e6998 */
-    uint8_t tag_prio;
 };
 
 #define BIO_RESET_BYTES		offsetof(struct bio, bi_max_vecs)
