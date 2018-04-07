@@ -1633,9 +1633,11 @@ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
 	req->__data_len += bio->bi_iter.bi_size;
 	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
 
+
+    /* e6998 */
+    req->tag_prio = tag_prio_best(req->tag_prio, bio->tag_prio);
+
     printk("in back merge, request->tag_prio is %d\n", req->tag_prio);
-
-
 	blk_account_io_start(req, false);
 	return true;
 }
@@ -1659,7 +1661,10 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
 	req->__sector = bio->bi_iter.bi_sector;
 	req->__data_len += bio->bi_iter.bi_size;
 	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
-
+    
+    /* e6998 */
+    req->tag_prio = tag_prio_best(req->tag_prio, bio->tag_prio);
+    
     printk("in front merge, request->tag_prio is %d\n", req->tag_prio);
 	blk_account_io_start(req, false);
 	return true;
@@ -1806,7 +1811,11 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	else
 		req->ioprio = IOPRIO_PRIO_VALUE(IOPRIO_CLASS_NONE, 0);
 	req->write_hint = bio->bi_write_hint;
-	blk_rq_bio_prep(req->q, req, bio);
+	
+    /* e6998 */
+    req->tag_prio = bio->tag_prio;
+
+    blk_rq_bio_prep(req->q, req, bio);
 }
 EXPORT_SYMBOL_GPL(blk_init_request_from_bio);
 

@@ -73,6 +73,8 @@ static inline int task_nice_ioclass(struct task_struct *task)
  * For inheritance, return the highest of the two given priorities
  */
 extern int ioprio_best(unsigned short aprio, unsigned short bprio);
+/* e6998 */
+extern uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio);
 
 extern int set_task_ioprio(struct task_struct *task, int ioprio);
 

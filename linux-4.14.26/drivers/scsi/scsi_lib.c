@@ -1778,7 +1778,6 @@ static void scsi_request_fn(struct request_queue *q)
 	struct scsi_cmnd *cmd;
 	struct request *req;
 
-    unsigned int tag_prio = 233;
 
 	/*
 	 * To start with, we keep looping until the queue is empty, or until
@@ -1861,7 +1860,11 @@ static void scsi_request_fn(struct request_queue *q)
 		 * Dispatch the command to the low-level driver.
 		 */
 		cmd->scsi_done = scsi_done;
-        cmd->tag_prio = tag_prio;
+        /* e6998 */
+        cmd->tag_prio = req->tag_prio;
+
+        printk("in scsi_request_fn, tag_prio is %d\n", cmd->tag_prio);
+
         rtn = scsi_dispatch_cmd(cmd);
 		if (rtn) {
 			scsi_queue_insert(cmd, rtn);

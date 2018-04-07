@@ -724,7 +724,11 @@ static struct request *attempt_merge(struct request_queue *q,
 	blk_account_io_merge(next);
 
 	req->ioprio = ioprio_best(req->ioprio, next->ioprio);
-	if (blk_rq_cpu_valid(next))
+
+    /* e6998 */
+    req->tag_prio = tag_prio_best(req->tag_prio, next->tag_prio);
+
+    if (blk_rq_cpu_valid(next))
 		req->cpu = next->cpu;
 
 	/*

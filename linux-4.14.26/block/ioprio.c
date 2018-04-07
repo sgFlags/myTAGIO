@@ -172,6 +172,12 @@ int ioprio_best(unsigned short aprio, unsigned short bprio)
 	return min(aprio, bprio);
 }
 
+/* e6998 */
+uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio)
+{
+    return aprio > bprio ? bprio : aprio;
+}
+
 SYSCALL_DEFINE2(ioprio_get, int, which, int, who)
 {
 	struct task_struct *g, *p;
