@@ -175,6 +175,10 @@ int ioprio_best(unsigned short aprio, unsigned short bprio)
 /* e6998 */
 uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio)
 {
+    if (aprio == 255 || aprio == 0)
+        aprio = 127;
+    if (bprio == 255 || bprio == 0)
+        bprio = 127;
     return aprio > bprio ? bprio : aprio;
 }
 
