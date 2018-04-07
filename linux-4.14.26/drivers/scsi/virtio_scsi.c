@@ -569,9 +569,9 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 		memcpy(cmd->req.cmd.cdb, sc->cmnd, sc->cmd_len);
 		req_size = sizeof(cmd->req.cmd);
 
-        for (i = 0; i < sc->cmd_len; i++)
-            printk("cmnd[%d] is %d ", i, sc->cmnd[i]);
-        printk("\n");
+        //for (i = 0; i < sc->cmd_len; i++)
+          //  printk("cmnd[%d] is %d ", i, sc->cmnd[i]);
+        //printk("\n");
 	}
 
     //printk("prio is %d\n", sc->tag_prio);
