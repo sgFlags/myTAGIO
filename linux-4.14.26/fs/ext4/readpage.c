@@ -98,7 +98,7 @@ static void mpage_end_io(struct bio *bio)
 
 int ext4_mpage_readpages(struct address_space *mapping,
 			 struct list_head *pages, struct page *page,
-			 unsigned nr_pages)
+			 unsigned nr_pages, uint8_t prio)
 {
 	struct bio *bio = NULL;
 	sector_t last_block_in_bio = 0;
@@ -121,6 +121,8 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	map.m_lblk = 0;
 	map.m_len = 0;
 	map.m_flags = 0;
+
+    printk("before submit_bio, prio is %d\n", prio);
 
 	for (; nr_pages; nr_pages--) {
 		int fully_mapped = 1;

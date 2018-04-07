@@ -3336,8 +3336,12 @@ static int ext4_readpage(struct file *file, struct page *page)
 	if (ext4_has_inline_data(inode))
 		ret = ext4_readpage_inline(inode, page);
 
+    /* e6998 */
+    if (prio == 255)
+        prio = 127;
+
 	if (ret == -EAGAIN)
-		return ext4_mpage_readpages(page->mapping, NULL, page, 1);
+		return ext4_mpage_readpages(page->mapping, NULL, page, 1, prio);
 
 	return ret;
 }
@@ -3355,7 +3359,11 @@ ext4_readpages(struct file *file, struct address_space *mapping,
 	if (ext4_has_inline_data(inode))
 		return 0;
 
-	return ext4_mpage_readpages(mapping, pages, NULL, nr_pages);
+    /* e6998 */
+    if (prio == 255)
+        prio = 127;
+
+	return ext4_mpage_readpages(mapping, pages, NULL, nr_pages, prio);
 }
 
 static void ext4_invalidatepage(struct page *page, unsigned int offset,
