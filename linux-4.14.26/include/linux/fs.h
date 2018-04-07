@@ -839,7 +839,7 @@ struct file_ra_state {
 	unsigned int mmap_miss;		/* Cache miss stat for mmap accesses */
 	loff_t prev_pos;		/* Cache last read() position */
     /* e6998 */
-    unsigned int prio;
+    uint8_t prio;
 };
 
 /*

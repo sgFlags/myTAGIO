@@ -562,7 +562,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 	{
         /* e6998 */
         sc->cmnd[9] = 233;
-        sc->cmd_len += 1;
+        //sc->cmd_len += 1;
         //printk("sc->cmd_len is %d\n", sc->cmd_len);
 
 		virtio_scsi_init_hdr(vscsi->vdev, &cmd->req.cmd, sc);

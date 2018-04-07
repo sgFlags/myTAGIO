@@ -1951,7 +1951,7 @@ static ssize_t generic_file_buffered_read(struct kiocb *iocb,
 	unsigned int prev_offset;
 	int error = 0;
     /* e6998 */
-    unsigned int prio;
+    uint8_t prio;
 
     /* e6998 */
     prio = iter->prio;

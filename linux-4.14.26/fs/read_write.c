@@ -408,7 +408,7 @@ static ssize_t new_sync_read(struct file *filp, char __user *buf, size_t len, lo
 }
 
 /* e6998 */
-static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len, loff_t *ppos, unsigned int prio)
+static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len, loff_t *ppos, uint8_t prio)
 {
 	struct iovec iov = { .iov_base = buf, .iov_len = len };
 	struct kiocb kiocb;
@@ -439,7 +439,7 @@ ssize_t __vfs_read(struct file *file, char __user *buf, size_t count,
 
 /* e6998 */
 ssize_t __tag_vfs_read(struct file *file, char __user *buf, size_t count,
-		   loff_t *pos, unsigned int prio)
+		   loff_t *pos, uint8_t prio)
 {
 	if (file->f_op->read)
 		return file->f_op->read(file, buf, count, pos);
@@ -490,7 +490,7 @@ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
 }
 
 /* e6998 */
-ssize_t tag_vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos, unsigned int prio)
+ssize_t tag_vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos, uint8_t prio)
 {
 	ssize_t ret;
 
@@ -640,7 +640,7 @@ SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
 }
 
 /* e6998 */
-SYSCALL_DEFINE4(tag_read, unsigned int, fd, char __user *, buf, size_t, count, unsigned int, prio)
+SYSCALL_DEFINE4(tag_read, unsigned int, fd, char __user *, buf, size_t, count, uint8_t, prio)
 {
     struct fd f = fdget_pos(fd);
 	ssize_t ret = -EBADF;

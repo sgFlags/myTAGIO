@@ -109,7 +109,7 @@ int read_cache_pages(struct address_space *mapping, struct list_head *pages,
 EXPORT_SYMBOL(read_cache_pages);
 
 static int read_pages(struct address_space *mapping, struct file *filp,
-		struct list_head *pages, unsigned int nr_pages, gfp_t gfp, unsigned int prio)
+		struct list_head *pages, unsigned int nr_pages, gfp_t gfp, uint prio)
 {
 	struct blk_plug plug;
 	unsigned page_idx;
@@ -207,7 +207,7 @@ out:
 /* e6998 */
 int __tag_do_page_cache_readahead(struct address_space *mapping, struct file *filp,
 			pgoff_t offset, unsigned long nr_to_read,
-			unsigned long lookahead_size, unsigned int prio)
+			unsigned long lookahead_size, uint8_t prio)
 {
 	struct inode *inode = mapping->host;
 	struct page *page;
@@ -441,7 +441,7 @@ ondemand_readahead(struct address_space *mapping,
 	pgoff_t prev_offset;
 
     /* e6998 */
-    unsigned int prio = ra->prio;
+    uint8_t prio = ra->prio;
 
 	/*
 	 * If the request exceeds the readahead window, allow the read to
@@ -573,6 +573,7 @@ void page_cache_sync_readahead(struct address_space *mapping,
 	ondemand_readahead(mapping, ra, filp, false, offset, req_size);
 }
 EXPORT_SYMBOL_GPL(page_cache_sync_readahead);
+
 
 /**
  * page_cache_async_readahead - file readahead for marked pages

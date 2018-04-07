@@ -47,7 +47,7 @@ struct iov_iter {
 	};
 
     /* e6998 */
-    unsigned int prio;
+    uint8_t prio;
 };
 
 /*
