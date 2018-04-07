@@ -3330,7 +3330,7 @@ static int ext4_readpage(struct file *file, struct page *page)
 
     uint8_t prio = file->f_ra.prio;
 
-    printf("in ext4_readpage, prio is %d\n", prio);
+    printk("in ext4_readpage, prio is %d\n", prio);
 	trace_ext4_readpage(page);
 
 	if (ext4_has_inline_data(inode))
