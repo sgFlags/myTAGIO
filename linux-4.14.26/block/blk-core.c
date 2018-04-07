@@ -1420,6 +1420,8 @@ static struct request *blk_old_get_request(struct request_queue *q,
 
 	spin_lock_irq(q->queue_lock);
 	rq = get_request(q, op, NULL, gfp_mask);
+    /* e6998 */
+    rq->tag_prio = 127;
 	if (IS_ERR(rq)) {
 		spin_unlock_irq(q->queue_lock);
 		return rq;
@@ -1879,7 +1881,11 @@ get_rq:
 	 * Returns with the queue unlocked.
 	 */
 	req = get_request(q, bio->bi_opf, bio, GFP_NOIO);
-	if (IS_ERR(req)) {
+
+    /* e6998 */
+    req->tag_prio = 127;
+
+    if (IS_ERR(req)) {
 		__wbt_done(q->rq_wb, wb_acct);
 		if (PTR_ERR(req) == -ENOMEM)
 			bio->bi_status = BLK_STS_RESOURCE;
