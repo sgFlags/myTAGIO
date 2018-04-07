@@ -117,7 +117,7 @@ static int read_pages(struct address_space *mapping, struct file *filp,
 
 	blk_start_plug(&plug);
 
-    printk("read pages!! prio is %d\n", prio);
+    //printk("read pages!! prio is %d\n", prio);
 
 	if (mapping->a_ops->readpages) {
 		ret = mapping->a_ops->readpages(filp, mapping, pages, nr_pages);
