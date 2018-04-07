@@ -109,7 +109,7 @@ int read_cache_pages(struct address_space *mapping, struct list_head *pages,
 EXPORT_SYMBOL(read_cache_pages);
 
 static int read_pages(struct address_space *mapping, struct file *filp,
-		struct list_head *pages, unsigned int nr_pages, gfp_t gfp, uint prio)
+		struct list_head *pages, unsigned int nr_pages, gfp_t gfp, uint8_t prio)
 {
 	struct blk_plug plug;
 	unsigned page_idx;
@@ -198,7 +198,7 @@ int __do_page_cache_readahead(struct address_space *mapping, struct file *filp,
 	 * will then handle the error.
 	 */
 	if (ret)
-		read_pages(mapping, filp, &page_pool, ret, gfp_mask);
+		read_pages(mapping, filp, &page_pool, ret, gfp_mask, 0);
 	BUG_ON(!list_empty(&page_pool));
 out:
 	return ret;
