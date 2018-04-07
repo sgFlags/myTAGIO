@@ -599,7 +599,7 @@ asmlinkage long sys_read(unsigned int fd, char __user *buf, size_t count);
 asmlinkage long sys_readahead(int fd, loff_t offset, size_t count);
 
 /* e6998 */
-asmlinkage long sys_tag_read(unsigned int fd, char __user *buf, size_t count, unsigned int prio);
+asmlinkage long sys_tag_read(unsigned int fd, char __user *buf, size_t count, uint8_t prio);
 
 asmlinkage long sys_readv(unsigned long fd,
 			  const struct iovec __user *vec,

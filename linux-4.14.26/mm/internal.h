@@ -64,7 +64,7 @@ static inline unsigned long ra_submit(struct file_ra_state *ra,
 		struct address_space *mapping, struct file *filp)
 {
     /* e6998 */
-    unsigned int prio = ra->prio;
+    uint8_t prio = ra->prio;
 
 	return __tag_do_page_cache_readahead(mapping, filp,
 					ra->start, ra->size, ra->async_size, prio);
