@@ -1631,7 +1631,7 @@ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
 	req->__data_len += bio->bi_iter.bi_size;
 	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
 
-    printf("in back merge, request->tag_prio is %d\n", request->tag_prio);
+    printk("in back merge, request->tag_prio is %d\n", request->tag_prio);
 
 
 	blk_account_io_start(req, false);
@@ -1658,7 +1658,7 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
 	req->__data_len += bio->bi_iter.bi_size;
 	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
 
-    printf("in front merge, request->tag_prio is %d\n", request->tag_prio);
+    printk("in front merge, request->tag_prio is %d\n", request->tag_prio);
 	blk_account_io_start(req, false);
 	return true;
 }
