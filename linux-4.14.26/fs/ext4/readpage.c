@@ -122,7 +122,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	map.m_len = 0;
 	map.m_flags = 0;
 
-    printk("before submit_bio, prio is %d\n", prio);
+    //printk("before submit_bio, prio is %d\n", prio);
 
 	for (; nr_pages; nr_pages--) {
 		int fully_mapped = 1;

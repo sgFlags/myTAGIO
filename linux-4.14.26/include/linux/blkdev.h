@@ -231,6 +231,9 @@ struct request {
 	unsigned long deadline;
 	struct list_head timeout_list;
 
+    /* e6998 */
+    uint8_t tag_prio;
+
 	/*
 	 * completion callback.
 	 */

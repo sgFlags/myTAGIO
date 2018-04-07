@@ -3330,7 +3330,7 @@ static int ext4_readpage(struct file *file, struct page *page)
 
     uint8_t prio = file->f_ra.prio;
 
-    printk("in ext4_readpage, prio is %d\n", prio);
+    //printk("in ext4_readpage, prio is %d\n", prio);
 	trace_ext4_readpage(page);
 
 	if (ext4_has_inline_data(inode))
@@ -3354,7 +3354,7 @@ ext4_readpages(struct file *file, struct address_space *mapping,
 
     uint8_t prio = file->f_ra.prio;
 
-    printk("in ext4_readpages, prio is %d\n", prio);
+    //printk("in ext4_readpages, prio is %d\n", prio);
 	/* If the file has inline data, no need to do readpages. */
 	if (ext4_has_inline_data(inode))
 		return 0;
