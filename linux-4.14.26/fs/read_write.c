@@ -645,6 +645,9 @@ SYSCALL_DEFINE4(tag_read, unsigned int, fd, char __user *, buf, size_t, count, u
     struct fd f = fdget_pos(fd);
 	ssize_t ret = -EBADF;
 
+    if (prio > 7 || prio < 1)
+        prio = 4;
+    prio += 64;
 	if (f.file) {
 		loff_t pos = file_pos_read(f.file);
 		ret = tag_vfs_read(f.file, buf, count, &pos, prio);
