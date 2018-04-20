@@ -1814,7 +1814,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    req->tag_prio = bio->tag_prio;
+    //req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
