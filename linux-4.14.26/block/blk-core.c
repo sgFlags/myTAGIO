@@ -1814,7 +1814,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    //req->tag_prio = bio->tag_prio;
+    req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
@@ -2577,11 +2577,7 @@ struct request *blk_peek_request(struct request_queue *q)
 
 	while ((rq = __elv_next_request(q)) != NULL) {
 
-        if (rq->tag_prio == 0) {
-            printk("get strange request! prio is %d, cmd_flags is 0x%llx, rq_flags is 0x%llx\n\n, REQ_PREFLUSH is 0x%llx", rq->tag_prio, rq->cmd_flags, rq->rq_flags, REQ_PREFLUSH);
-        }
-        else
-            printk("get normal request! prio is %d, cmd_flags is 0x%llx, rq_flags is 0x%llx\n", rq->tag_prio, rq->cmd_flags, rq->rq_flags);
+        printk("get normal request! prio is %d, cmd_flags is 0x%llx, rq_flags is 0x%llx\n", rq->tag_prio, rq->cmd_flags, rq->rq_flags);
 		rq = blk_pm_peek_request(q, rq);
 		if (!rq)
 			break;
