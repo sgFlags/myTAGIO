@@ -2577,7 +2577,8 @@ struct request *blk_peek_request(struct request_queue *q)
 
 	while ((rq = __elv_next_request(q)) != NULL) {
 
-        printk("get request! prio is %d, cmd_flags is %d\n", rq->tag_prio, rq->cmd_flags);
+        if (rq->tag_prio == 0)
+            printk("get strange request! prio is %d, cmd_flags is 0x%x\n", rq->tag_prio, rq->cmd_flags);
 		rq = blk_pm_peek_request(q, rq);
 		if (!rq)
 			break;
