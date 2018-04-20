@@ -2579,6 +2579,7 @@ struct request *blk_peek_request(struct request_queue *q)
 
         if (rq->tag_prio == 0) {
             printk("get strange request! prio is %d, cmd_flags is 0x%x, rq_flags is 0x%x\n\n, REQ_PREFLUSH is 0x%x", rq->tag_prio, rq->cmd_flags, rq->rq_flags, REQ_PREFLUSH);
+        }
         else
             printk("get normal request! prio is %d, cmd_flags is 0x%x, rq_flags is 0x%x\n", rq->tag_prio, rq->cmd_flags, rq->rq_flags);
 		rq = blk_pm_peek_request(q, rq);
