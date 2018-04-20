@@ -1423,8 +1423,6 @@ static struct request *blk_old_get_request(struct request_queue *q,
 
 	spin_lock_irq(q->queue_lock);
 	rq = get_request(q, op, NULL, gfp_mask);
-    /* e6998 */
-    rq->tag_prio = 127;
 	if (IS_ERR(rq)) {
 		spin_unlock_irq(q->queue_lock);
 		return rq;
@@ -1816,7 +1814,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    req->tag_prio = bio->tag_prio;
+    //req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
@@ -1895,7 +1893,7 @@ get_rq:
 	req = get_request(q, bio->bi_opf, bio, GFP_NOIO);
 
     /* e6998 */
-    req->tag_prio = 127;
+    //req->tag_prio = 127;
 
     if (IS_ERR(req)) {
 		__wbt_done(q->rq_wb, wb_acct);
@@ -2579,7 +2577,7 @@ struct request *blk_peek_request(struct request_queue *q)
 
 	while ((rq = __elv_next_request(q)) != NULL) {
 
-        printk("get request! prio is %d\n", rq->tag_prio);
+        printk("get request! prio is %d, cmd_flags is %d\n", rq->tag_prio, rq->cmd_flags);
 		rq = blk_pm_peek_request(q, rq);
 		if (!rq)
 			break;
