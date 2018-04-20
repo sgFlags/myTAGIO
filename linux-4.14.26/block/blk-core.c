@@ -1273,6 +1273,9 @@ static struct request *__get_request(struct request_list *rl, unsigned int op,
 	rq->cmd_flags = op;
 	rq->rq_flags = rq_flags;
 
+    /* e6998 */
+    rq->tag_prio = bio->tag_prio;
+
 	/* init elvpriv */
 	if (rq_flags & RQF_ELVPRIV) {
 		if (unlikely(et->icq_cache && !icq)) {
@@ -1637,7 +1640,7 @@ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
     /* e6998 */
     req->tag_prio = tag_prio_best(req->tag_prio, bio->tag_prio);
 
-    printk("in back merge, request->tag_prio is %d\n", req->tag_prio);
+    //printk("in back merge, request->tag_prio is %d\n", req->tag_prio);
 	blk_account_io_start(req, false);
 	return true;
 }
@@ -1813,7 +1816,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    req->tag_prio = bio->tag_prio;
+    //req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
@@ -1892,7 +1895,7 @@ get_rq:
 	req = get_request(q, bio->bi_opf, bio, GFP_NOIO);
 
     /* e6998 */
-    req->tag_prio = 127;
+    //req->tag_prio = 127;
 
     if (IS_ERR(req)) {
 		__wbt_done(q->rq_wb, wb_acct);
@@ -2576,6 +2579,7 @@ struct request *blk_peek_request(struct request_queue *q)
 
 	while ((rq = __elv_next_request(q)) != NULL) {
 
+        printk("get request! prio is %d\n", rq->prio);
 		rq = blk_pm_peek_request(q, rq);
 		if (!rq)
 			break;
