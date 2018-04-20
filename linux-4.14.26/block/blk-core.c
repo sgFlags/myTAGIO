@@ -1274,7 +1274,7 @@ static struct request *__get_request(struct request_list *rl, unsigned int op,
 	rq->rq_flags = rq_flags;
 
     /* e6998 */
-    rq->tag_prio = bio->tag_prio;
+    rq->tag_prio = 111;
 
 	/* init elvpriv */
 	if (rq_flags & RQF_ELVPRIV) {
@@ -1816,7 +1816,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    //req->tag_prio = bio->tag_prio;
+    req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
@@ -1895,7 +1895,7 @@ get_rq:
 	req = get_request(q, bio->bi_opf, bio, GFP_NOIO);
 
     /* e6998 */
-    //req->tag_prio = 127;
+    req->tag_prio = 127;
 
     if (IS_ERR(req)) {
 		__wbt_done(q->rq_wb, wb_acct);
