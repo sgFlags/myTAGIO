@@ -523,7 +523,7 @@ struct bio *bio_alloc_bioset(gfp_t gfp_mask, unsigned int nr_iovecs,
 	bio->bi_io_vec = bvl;
 	
     /* e6998 */
-    bio->tag_prio = 0;
+    bio->tag_prio = 121;
     return bio;
 
 err_free:
