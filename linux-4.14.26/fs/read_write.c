@@ -400,7 +400,7 @@ static ssize_t new_sync_read(struct file *filp, char __user *buf, size_t len, lo
 	iov_iter_init(&iter, READ, &iov, 1, len);
     
     /* e6998 */
-    iter.prio = -1;
+    //iter.prio = -1;
 
 	ret = call_read_iter(filp, &kiocb, &iter);
 	BUG_ON(ret == -EIOCBQUEUED);
@@ -419,7 +419,7 @@ static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len
 	init_sync_kiocb(&kiocb, filp);
 	kiocb.ki_pos = *ppos;
 	iov_iter_init(&iter, READ, &iov, 1, len);
-    iter.tio = *prio;
+    iter.tio = *tio;
     //iter.tio.
 
 	ret = call_read_iter(filp, &kiocb, &iter);
