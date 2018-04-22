@@ -564,7 +564,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
         sc->cmnd[9] = sc->tag_prio;
         
         //sc->cmnd[10] = sc->tag_prio;
-        sc->cmnd[7] = sc->tag_prio;
+        sc->cmnd[6] = sc->tag_prio;
         //sc->cmd_len += 1;
         //printk("sc->cmd_len is %d\n", sc->cmd_len);
 
