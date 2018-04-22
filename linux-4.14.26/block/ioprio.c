@@ -31,6 +31,7 @@
 #include <linux/syscalls.h>
 #include <linux/security.h>
 #include <linux/pid_namespace.h>
+#include <linux/tagio.h>
 
 int set_task_ioprio(struct task_struct *task, int ioprio)
 {
@@ -175,10 +176,10 @@ int ioprio_best(unsigned short aprio, unsigned short bprio)
 /* e6998 */
 uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio)
 {
-    if (aprio == 255 || aprio == 0)
-        aprio = 127;
-    if (bprio == 255 || bprio == 0)
-        bprio = 127;
+    if (aprio > MAX_TAG_PRIO && aprio < MIN_TAG_PRIO)
+        aprio = INVALID_TAG_PRIO;
+    if (bprio > MAX_TAG_PRIO && bprio < MIN_TAG_PRIO)
+        bprio = INVALID_TAG_PRIO;
     return aprio > bprio ? bprio : aprio;
 }
 

@@ -70,6 +70,7 @@
 #include <linux/blkdev.h>
 #include <linux/gfp.h>
 #include <linux/blk-mq.h>
+#include <linux/tagio.h>
 
 #include "blk.h"
 #include "blk-mq.h"
@@ -338,7 +339,7 @@ static bool blk_kick_flush(struct request_queue *q, struct blk_flush_queue *fq)
 	flush_rq->rq_disk = first_rq->rq_disk;
 	flush_rq->end_io = flush_end_io;
     /* e6998 */
-    flush_rq->tag_prio = 12;
+    flush_rq->tag_prio = INVALID_TAG_PRIO;
 
 	return blk_flush_queue_rq(flush_rq, false);
 }

@@ -34,6 +34,7 @@
 #include <linux/pm_runtime.h>
 #include <linux/blk-cgroup.h>
 #include <linux/debugfs.h>
+#include <linux/tagio.h>
 
 #define CREATE_TRACE_POINTS
 #include <trace/events/block.h>
@@ -1274,7 +1275,7 @@ static struct request *__get_request(struct request_list *rl, unsigned int op,
 	rq->rq_flags = rq_flags;
 
     /* e6998 */
-    rq->tag_prio = 111;
+    rq->tag_prio = INVALID_TAG_PRIO;
 
 	/* init elvpriv */
 	if (rq_flags & RQF_ELVPRIV) {
@@ -1814,7 +1815,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    //req->tag_prio = bio->tag_prio;
+    req->tag_prio = bio->tag_prio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }
