@@ -21,6 +21,7 @@
 #include <linux/mount.h>
 #include <linux/fs.h>
 #include "internal.h"
+#include <linux/tagio.h>
 
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
@@ -408,7 +409,7 @@ static ssize_t new_sync_read(struct file *filp, char __user *buf, size_t len, lo
 }
 
 /* e6998 */
-static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len, loff_t *ppos, uint8_t prio)
+static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len, loff_t *ppos, struct tag_io *tio)
 {
 	struct iovec iov = { .iov_base = buf, .iov_len = len };
 	struct kiocb kiocb;
@@ -418,7 +419,8 @@ static ssize_t tag_new_sync_read(struct file *filp, char __user *buf, size_t len
 	init_sync_kiocb(&kiocb, filp);
 	kiocb.ki_pos = *ppos;
 	iov_iter_init(&iter, READ, &iov, 1, len);
-    iter.prio = prio;
+    iter.tio = *prio;
+    //iter.tio.
 
 	ret = call_read_iter(filp, &kiocb, &iter);
 	BUG_ON(ret == -EIOCBQUEUED);
@@ -439,12 +441,12 @@ ssize_t __vfs_read(struct file *file, char __user *buf, size_t count,
 
 /* e6998 */
 ssize_t __tag_vfs_read(struct file *file, char __user *buf, size_t count,
-		   loff_t *pos, uint8_t prio)
+		   loff_t *pos, struct tag_io *tio)
 {
 	if (file->f_op->read)
 		return file->f_op->read(file, buf, count, pos);
 	else if (file->f_op->read_iter)
-		return tag_new_sync_read(file, buf, count, pos, prio);
+		return tag_new_sync_read(file, buf, count, pos, tio);
 	else
 		return -EINVAL;
 }
@@ -490,7 +492,7 @@ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
 }
 
 /* e6998 */
-ssize_t tag_vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos, uint8_t prio)
+ssize_t tag_vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos, struct tag_io *tio)
 {
 	ssize_t ret;
 
@@ -505,7 +507,7 @@ ssize_t tag_vfs_read(struct file *file, char __user *buf, size_t count, loff_t *
 	if (!ret) {
 		if (count > MAX_RW_COUNT)
 			count =  MAX_RW_COUNT;
-		ret = __tag_vfs_read(file, buf, count, pos, prio);
+		ret = __tag_vfs_read(file, buf, count, pos, tio);
 		if (ret > 0) {
 			fsnotify_access(file);
 			add_rchar(current, ret);
@@ -644,13 +646,15 @@ SYSCALL_DEFINE4(tag_read, unsigned int, fd, char __user *, buf, size_t, count, u
 {
     struct fd f = fdget_pos(fd);
 	ssize_t ret = -EBADF;
-
-    if (prio > 7 || prio < 1)
-        prio = 4;
-    prio += 64;
+    struct tag_io tio;
+    //if (prio > 7 || prio < 1)
+      //  prio = 4;
+    //prio += 64;
+    tio.tag_pid = task_tgid_vnr(current);
+    tio.tag_prio = prio;
 	if (f.file) {
 		loff_t pos = file_pos_read(f.file);
-		ret = tag_vfs_read(f.file, buf, count, &pos, prio);
+		ret = tag_vfs_read(f.file, buf, count, &pos, &tio);
 		if (ret >= 0)
 			file_pos_write(f.file, pos);
 		fdput_pos(f);

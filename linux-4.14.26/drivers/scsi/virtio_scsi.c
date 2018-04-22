@@ -563,9 +563,9 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
         /* e6998 */
         sc->cmnd[9] = sc->tag_prio;
         
-        //sc->cmnd[10] = sc->tag_prio;
+        sc->cmnd[10] = sc->tag_prio;
         sc->cmnd[6] = sc->tag_prio;
-        //sc->cmd_len += 1;
+        sc->cmd_len += 1;
         //printk("sc->cmd_len is %d\n", sc->cmd_len);
 
 		virtio_scsi_init_hdr(vscsi->vdev, &cmd->req.cmd, sc);
@@ -573,7 +573,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 		req_size = sizeof(cmd->req.cmd);
 
         //for (i = 0; i < sc->cmd_len; i++)
-          //  printk("cmnd[%d] is %d ", i, sc->cmnd[i]);
+        printk("cmnd[10] is %d ", cmd->req.cmd.cdb[10]);
         //printk("\n");
 	}
 

@@ -1954,10 +1954,11 @@ static ssize_t generic_file_buffered_read(struct kiocb *iocb,
     uint8_t prio;
 
     /* e6998 */
-    prio = iter->prio;
+    prio = iter->tio.tag_prio;
+    //printk("
     ra->prio = prio;
 
-    //printk("in generic_file_buffered_read, prio is %d\n", prio);
+    printk("in generic_file_buffered_read, prio is %d, pid is %u\n", prio, iter->tio.tag_pid);
 
 	if (unlikely(*ppos >= inode->i_sb->s_maxbytes))
 		return 0;

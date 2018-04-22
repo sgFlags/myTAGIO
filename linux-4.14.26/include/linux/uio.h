@@ -12,6 +12,7 @@
 #include <linux/kernel.h>
 #include <linux/thread_info.h>
 #include <uapi/linux/uio.h>
+#include <linux/tagio.h>
 
 struct page;
 struct pipe_inode_info;
@@ -47,7 +48,8 @@ struct iov_iter {
 	};
 
     /* e6998 */
-    uint8_t prio;
+    struct tag_io tio;
+    //uint8_t prio;
 };
 
 /*
