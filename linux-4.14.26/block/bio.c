@@ -28,12 +28,14 @@
 #include <linux/mempool.h>
 #include <linux/workqueue.h>
 #include <linux/cgroup.h>
+#include <linux/tagio.h>
 
 #include <trace/events/block.h>
 #include "blk.h"
 
 /*
  * Test patch to inline a certain number of bi_io_vec's inside the bio
+
  * itself, to shrink a bio data allocation from two mempool calls to one
  */
 #define BIO_INLINE_VECS		4
@@ -523,7 +525,7 @@ struct bio *bio_alloc_bioset(gfp_t gfp_mask, unsigned int nr_iovecs,
 	bio->bi_io_vec = bvl;
 	
     /* e6998 */
-    bio->tag_prio = 7;
+    bio->tag_prio = INVALID_PRIO;
     return bio;
 
 err_free:
@@ -692,7 +694,7 @@ struct bio *bio_clone_bioset(struct bio *bio_src, gfp_t gfp_mask,
 	bio->bi_write_hint	= bio_src->bi_write_hint;
 	bio->bi_iter.bi_sector	= bio_src->bi_iter.bi_sector;
 	bio->bi_iter.bi_size	= bio_src->bi_iter.bi_size;
-    bio->tag_prio = bio_src->tag_prio;
+    bio->tio = bio_src->tio;
 
 	switch (bio_op(bio)) {
 	case REQ_OP_DISCARD:

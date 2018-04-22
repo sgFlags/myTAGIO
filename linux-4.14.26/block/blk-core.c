@@ -1668,7 +1668,7 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
     /* e6998 */
     req->tio = tag_prio_best(&req->tio, &bio->tio);
     
-    printk("in front merge, request->tag_prio is %d\n", req->tag_prio);
+    //printk("in front merge, request->tag_prio is %d\n", req->tag_prio);
 	blk_account_io_start(req, false);
 	return true;
 }
@@ -2579,7 +2579,7 @@ struct request *blk_peek_request(struct request_queue *q)
 
 	while ((rq = __elv_next_request(q)) != NULL) {
 
-        printk("get normal request! prio is %d, cmd_flags is 0x%llx, rq_flags is 0x%llx\n", rq->tag_prio, rq->cmd_flags, rq->rq_flags);
+        //printk("get normal request! prio is %d, cmd_flags is 0x%llx, rq_flags is 0x%llx\n", rq->tag_prio, rq->cmd_flags, rq->rq_flags);
 		rq = blk_pm_peek_request(q, rq);
 		if (!rq)
 			break;
