@@ -525,7 +525,7 @@ struct bio *bio_alloc_bioset(gfp_t gfp_mask, unsigned int nr_iovecs,
 	bio->bi_io_vec = bvl;
 	
     /* e6998 */
-    bio->tio.tag_prio = INVALID_PRIO;
+    bio->tio.tag_prio = INVALID_TAG_PRIO;
     return bio;
 
 err_free:
