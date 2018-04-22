@@ -1275,7 +1275,7 @@ static struct request *__get_request(struct request_list *rl, unsigned int op,
 	rq->rq_flags = rq_flags;
 
     /* e6998 */
-    rq->tag_prio = INVALID_TAG_PRIO;
+    rq->tio.tag_prio = INVALID_TAG_PRIO;
 
 	/* init elvpriv */
 	if (rq_flags & RQF_ELVPRIV) {
@@ -1637,7 +1637,8 @@ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
 
 
     /* e6998 */
-    req->tag_prio = tag_prio_best(req->tag_prio, bio->tag_prio);
+    //req->tio = bio->tio;
+    req->tio = tag_prio_best(&req->tio, &bio->tio);
 
     //printk("in back merge, request->tag_prio is %d\n", req->tag_prio);
 	blk_account_io_start(req, false);
@@ -1665,7 +1666,7 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
 	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
     
     /* e6998 */
-    req->tag_prio = tag_prio_best(req->tag_prio, bio->tag_prio);
+    req->tio = tag_prio_best(&req->tio, &bio->tio);
     
     printk("in front merge, request->tag_prio is %d\n", req->tag_prio);
 	blk_account_io_start(req, false);
@@ -1815,7 +1816,7 @@ void blk_init_request_from_bio(struct request *req, struct bio *bio)
 	req->write_hint = bio->bi_write_hint;
 	
     /* e6998 */
-    req->tag_prio = bio->tag_prio;
+    req->tio = bio->tio;
 
     blk_rq_bio_prep(req->q, req, bio);
 }

@@ -4,7 +4,7 @@
 
 #include <linux/sched.h>
 #include <linux/iocontext.h>
-
+#include <linux/tagio.h>
 /*
  * Gives us 8 prio classes with 13-bits of data for each class
  */
@@ -74,7 +74,7 @@ static inline int task_nice_ioclass(struct task_struct *task)
  */
 extern int ioprio_best(unsigned short aprio, unsigned short bprio);
 /* e6998 */
-extern uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio);
+extern struct tag_io tag_prio_best(struct tag_io *atio, struct tag_io *btio);
 
 extern int set_task_ioprio(struct task_struct *task, int ioprio);
 

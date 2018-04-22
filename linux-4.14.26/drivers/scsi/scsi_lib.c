@@ -1861,11 +1861,11 @@ static void scsi_request_fn(struct request_queue *q)
 		 */
 		cmd->scsi_done = scsi_done;
         /* e6998 */
-        if (req->tag_prio == 0 || req->tag_prio == 255)
-            cmd->tag_prio = 127;
-        else
-            cmd->tag_prio = req->tag_prio;
-
+        //if (req->tag_prio == 0 || req->tag_prio == 255)
+         //   cmd->tag_prio = 127;
+        //else
+          //  cmd->tag_prio = req->tag_prio;
+        cmd->tio = req->tio;
         //printk("in scsi_request_fn, tag_prio is %d\n", cmd->tag_prio);
 
         rtn = scsi_dispatch_cmd(cmd);

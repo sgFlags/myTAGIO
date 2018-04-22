@@ -10,6 +10,7 @@
 #include <linux/scatterlist.h>
 #include <scsi/scsi_device.h>
 #include <scsi/scsi_request.h>
+#include <linux/tagio.h>
 
 struct Scsi_Host;
 struct scsi_driver;
@@ -147,7 +148,8 @@ struct scsi_cmnd {
 
 	unsigned char tag;	/* SCSI-II queued command tag */
     /* e6998 */
-    unsigned int tag_prio;
+    //unsigned int tag_prio;
+    struct tag_io tio;
 };
 
 /*

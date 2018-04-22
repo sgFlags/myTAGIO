@@ -726,7 +726,7 @@ static struct request *attempt_merge(struct request_queue *q,
 	req->ioprio = ioprio_best(req->ioprio, next->ioprio);
 
     /* e6998 */
-    req->tag_prio = tag_prio_best(req->tag_prio, next->tag_prio);
+    req->tio = tag_prio_best(&req->tio, &next->tio);
 
     if (blk_rq_cpu_valid(next))
 		req->cpu = next->cpu;

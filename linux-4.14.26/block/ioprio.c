@@ -174,13 +174,22 @@ int ioprio_best(unsigned short aprio, unsigned short bprio)
 }
 
 /* e6998 */
-uint8_t tag_prio_best(uint8_t aprio, uint8_t bprio)
+struct tag_io tag_prio_best(struct tag_io *atio, struct tag_io *btio)
 {
-    if (aprio > MAX_TAG_PRIO && aprio < MIN_TAG_PRIO)
-        aprio = INVALID_TAG_PRIO;
-    if (bprio > MAX_TAG_PRIO && bprio < MIN_TAG_PRIO)
-        bprio = INVALID_TAG_PRIO;
-    return aprio > bprio ? bprio : aprio;
+    struct tag_io tio;
+    if (atio->tag_prio > MAX_TAG_PRIO && atio->tag_prio < MIN_TAG_PRIO)
+        atio->tag_prio = INVALID_TAG_PRIO;
+    if (btio->tag_prio > MAX_TAG_PRIO && btio->tag_prio < MIN_TAG_PRIO)
+        btio->tag_prio = INVALID_TAG_PRIO;
+
+    if (atio->tag_prio > btio->tag_prio) {
+        tio.tag_prio = btio->tag_prio;
+        tio.tag_pid = btio->tag_pid;
+    } else {
+        tio.tag_prio = atio->tag_prio;
+        tio.tag_pid = atio->tag_pid;
+    }
+    return tio;
 }
 
 SYSCALL_DEFINE2(ioprio_get, int, which, int, who)

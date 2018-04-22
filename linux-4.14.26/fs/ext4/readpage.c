@@ -123,7 +123,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	map.m_len = 0;
 	map.m_flags = 0;
 
-    printk("before submit_bio, prio is %d, pid is %u\n", tio->tag_prio, tio->tag_pid);
+    //printk("before submit_bio, prio is %d, pid is %u\n", tio->tag_prio, tio->tag_pid);
 
 	for (; nr_pages; nr_pages--) {
 		int fully_mapped = 1;
@@ -239,7 +239,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 		 */
 		if (bio && (last_block_in_bio != blocks[0] - 1)) {
 		submit_and_realloc:
-            bio->tag_prio = prio;
+            bio->tio = *tio;
 			submit_bio(bio);
 			bio = NULL;
 		}
@@ -273,7 +273,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 		if (((map.m_flags & EXT4_MAP_BOUNDARY) &&
 		     (relative_block == map.m_len)) ||
 		    (first_hole != blocks_per_page)) {
-            bio->tag_prio = prio;
+            bio->tio = *tio;
 			submit_bio(bio);
 			bio = NULL;
 		} else
@@ -281,7 +281,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 		goto next_page;
 	confused:
 		if (bio) {
-            bio->tag_prio = prio;
+            bio->tio = *tio;
 			submit_bio(bio);
 			bio = NULL;
 		}
@@ -295,7 +295,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	}
 	BUG_ON(pages && !list_empty(pages));
 	if (bio) {
-        bio->tag_prio = prio;
+        bio->tio = *tio;
 		submit_bio(bio);
     }
 	return 0;

@@ -6,6 +6,7 @@
 #ifndef __LINUX_BLK_TYPES_H
 #define __LINUX_BLK_TYPES_H
 
+#include <linux/tagio.h>
 #include <linux/types.h>
 #include <linux/bvec.h>
 
@@ -97,8 +98,8 @@ struct bio {
 	};
 
     /* e6998 */
-    uint8_t tag_prio;
-	
+    //uint8_t tag_prio;
+	struct tag_io tio; 
     unsigned short		bi_vcnt;	/* how many bio_vec's */
 
 	/*

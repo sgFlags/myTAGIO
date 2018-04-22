@@ -27,6 +27,7 @@
 #include <linux/percpu-refcount.h>
 #include <linux/scatterlist.h>
 #include <linux/blkzoned.h>
+#include <linux/tagio.h>
 
 struct module;
 struct scsi_ioctl_command;
@@ -232,7 +233,8 @@ struct request {
 	struct list_head timeout_list;
 
     /* e6998 */
-    uint8_t tag_prio;
+    //uint8_t tag_prio;
+    struct tag_io tio;
 
 	/*
 	 * completion callback.
