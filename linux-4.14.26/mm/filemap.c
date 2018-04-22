@@ -1950,15 +1950,11 @@ static ssize_t generic_file_buffered_read(struct kiocb *iocb,
 	unsigned long offset;      /* offset into pagecache page */
 	unsigned int prev_offset;
 	int error = 0;
-    /* e6998 */
-    uint8_t prio;
 
     /* e6998 */
-    prio = iter->tio.tag_prio;
-    //printk("
-    ra->prio = prio;
+    ra->tio = iter->tio;
 
-    printk("in generic_file_buffered_read, prio is %d, pid is %u\n", prio, iter->tio.tag_pid);
+    //printk("in generic_file_buffered_read, prio is %d, pid is %u\n", prio, iter->tio.tag_pid);
 
 	if (unlikely(*ppos >= inode->i_sb->s_maxbytes))
 		return 0;

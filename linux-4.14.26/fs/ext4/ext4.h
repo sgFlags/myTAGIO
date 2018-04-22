@@ -34,6 +34,7 @@
 #include <linux/percpu_counter.h>
 #include <linux/ratelimit.h>
 #include <crypto/hash.h>
+#include <linux/tagio.h>
 #ifdef CONFIG_EXT4_FS_ENCRYPTION
 #include <linux/fscrypt_supp.h>
 #else
@@ -3096,7 +3097,7 @@ static inline void ext4_set_de_type(struct super_block *sb,
 /* readpages.c */
 extern int ext4_mpage_readpages(struct address_space *mapping,
 				struct list_head *pages, struct page *page,
-				unsigned nr_pages, uint8_t prio);
+				unsigned nr_pages, struct tag_io *tio);
 
 /* symlink.c */
 extern const struct inode_operations ext4_encrypted_symlink_inode_operations;

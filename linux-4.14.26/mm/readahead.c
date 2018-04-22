@@ -441,7 +441,7 @@ ondemand_readahead(struct address_space *mapping,
 	pgoff_t prev_offset;
 
     /* e6998 */
-    uint8_t prio = ra->prio;
+    //uint8_t prio = ra->prio;
 
 	/*
 	 * If the request exceeds the readahead window, allow the read to
@@ -520,7 +520,7 @@ ondemand_readahead(struct address_space *mapping,
 	 */
 
     /* e6998 */
-	return __tag_do_page_cache_readahead(mapping, filp, offset, req_size, 0, prio);
+	return __tag_do_page_cache_readahead(mapping, filp, offset, req_size, 0, 0);
 
 initial_readahead:
 	ra->start = offset;

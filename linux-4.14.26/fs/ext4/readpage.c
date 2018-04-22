@@ -98,7 +98,7 @@ static void mpage_end_io(struct bio *bio)
 
 int ext4_mpage_readpages(struct address_space *mapping,
 			 struct list_head *pages, struct page *page,
-			 unsigned nr_pages, uint8_t prio)
+			 unsigned nr_pages, struct tag_io *tio)
 {
 	struct bio *bio = NULL;
 	sector_t last_block_in_bio = 0;
@@ -115,6 +115,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	struct block_device *bdev = inode->i_sb->s_bdev;
 	int length;
 	unsigned relative_block = 0;
+    uint8_t prio = 0;
 	struct ext4_map_blocks map;
 
 	map.m_pblk = 0;
@@ -122,7 +123,7 @@ int ext4_mpage_readpages(struct address_space *mapping,
 	map.m_len = 0;
 	map.m_flags = 0;
 
-    //printk("before submit_bio, prio is %d\n", prio);
+    printk("before submit_bio, prio is %d, pid is %u\n", tio->td.tag_prio, tio->td.tag_pid);
 
 	for (; nr_pages; nr_pages--) {
 		int fully_mapped = 1;
