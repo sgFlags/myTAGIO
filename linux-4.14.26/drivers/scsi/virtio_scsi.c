@@ -573,7 +573,7 @@ static int virtscsi_queuecommand(struct virtio_scsi *vscsi,
 		req_size = sizeof(cmd->req.cmd);
 
         //for (i = 0; i < sc->cmd_len; i++)
-        printk("cmnd[10] is %d ", cmd->req.cmd.cdb[10]);
+        //printk("cmnd[10] is %d ", cmd->req.cmd.cdb[10]);
         //printk("\n");
 	}
 
